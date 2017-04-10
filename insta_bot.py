@@ -79,15 +79,14 @@ def comment_id(user_name):
     media_id = get_user_post_id(user_name)
     comment_id_url = base_url + "/media/" + media_id + "/comments?access_token=" + access_token
     rqst_url = requests.get(comment_id_url).json()
-    print rqst_url['data']["id"]
+    return rqst_url["data"][0]["id"]
+
 
 
 #function to delete your comment on user's post
 def delete_comment(user_name):
     media_id = get_user_post_id(user_name)
-    coment_id = post_comment(user_name)
-    print coment_id
-    text = raw_input("ENTER COMMENT YOU WANT TO DELETE")
+    coment_id = comment_id(user_name)
     comment_del_url = base_url + "/media/" + media_id + "/comments/"+ coment_id + "?access_token=" + access_token
     rqst_url = requests.delete(comment_del_url).json()
     done = rqst_url["meta"]["code"]
@@ -97,7 +96,7 @@ def delete_comment(user_name):
         print "CANNOT DELETE"
 
 
-comment_id("badshahking143")
+delete_comment("badshahking143")
 
 
 
