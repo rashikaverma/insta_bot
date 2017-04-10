@@ -20,8 +20,8 @@ def owner_info():
 def get_user_info_by_username(user_name):
     user_url = base_url + "/users/search?q==" + user_name + "&access_token=" + access_token
     user_info = requests.get(user_url).json()
-    print user_info["data"][0]["username"]
-    print user_info["data"][0]["full_name"]
+    #print user_info["data"][0]["username"]
+    #print user_info["data"][0]["full_name"]
     return user_info["data"][0]["id"]
 
 #function calling
@@ -29,14 +29,18 @@ def get_user_info_by_username(user_name):
 
 #function to return post id by taking post_number and user_name as an argument
 def get_user_post_id(user_name):
-    i = raw_input("Please enter the post number")
-    i = int(i)
     user_id = get_user_info_by_username(user_name)
     url_id = base_url + "/users/" + user_id + "/media/recent/?access_token=" + access_token
     rqst_url=requests.get(url_id).json()
+    for posts in range(0, len(rqst_url["data"]), 1):
+        posts
+    total_posts = str(posts+1)
+    print 'we have total ' + total_posts +  ' posts of  :' + user_name + '\nwhich post you want to choose'
+    posts = raw_input()
+    posts = int(posts)
+    i = posts-1
+    i = int(i)
     return rqst_url["data"][i]["id"]
-
-
 
 
 #function calling
@@ -55,9 +59,9 @@ def like_user_post(user_name):
         print "INVALID USERNAME OR POST NUMBER"
 
 #like_user_post("badshahking143")
-
-def post_comment(insta_username,post_number):
-    media_id=get_user_post_id(insta_username,post_number)
+#function to post a comment on a user's post
+def post_comment(insta_username):
+    media_id=get_user_post_id(insta_username)
     comnt_url=(base_url+"/media/%s/comments?access_token=%s") %(media_id,access_token)
     request_data={"access_token":access_token,'text':raw_input("enter your comment here")}
     comment_request=requests.post(comnt_url,request_data).json()
@@ -68,4 +72,34 @@ def post_comment(insta_username,post_number):
         print "INVALID USER NAME OR POST NUMBER"
     return comment_request['data']["id"]
 
-#post_comment("badshahking143",0)
+#post_comment("badshahking143")
+
+#function to return comment id
+def comment_id(user_name):
+    media_id = get_user_post_id(user_name)
+    comment_id_url = base_url + "/media/" + media_id + "/comments?access_token=" + access_token
+    rqst_url = requests.get(comment_id_url).json()
+    print rqst_url['data']["id"]
+
+
+#function to delete your comment on user's post
+def delete_comment(user_name):
+    media_id = get_user_post_id(user_name)
+    coment_id = post_comment(user_name)
+    print coment_id
+    text = raw_input("ENTER COMMENT YOU WANT TO DELETE")
+    comment_del_url = base_url + "/media/" + media_id + "/comments/"+ coment_id + "?access_token=" + access_token
+    rqst_url = requests.delete(comment_del_url).json()
+    done = rqst_url["meta"]["code"]
+    if done == 200:
+        print "COMMENT DELETED SUCCESSFULLY"
+    else:
+        print "CANNOT DELETE"
+
+
+comment_id("badshahking143")
+
+
+
+
+
