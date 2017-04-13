@@ -98,8 +98,45 @@ def delete_comment(user_name):
         print "CANNOT DELETE"
 
 
-delete_comment("apd_pankz")
+#delete_comment("apd_pankz")
 
+def search_comment(user_name):
+    post_id=get_user_post_id(user_name)
+    search=raw_input("ENTER COMMENT YOU WANT TO SEARCH")
+    recent_comments=base_url+"/media/"+post_id+"/comments?access_token="+access_token
+    recent_comments=requests.get(recent_comments).json()
+    for i in range (0,len (recent_comments["data"]),1):
+        if search in recent_comments['data'][i]['text']:
+            print "COMMENT FOUND..!!"
+            print recent_comments ['data'][i]['text']
+            return recent_comments['data'][i]['id'],post_id
+    else:
+        print "SORRY..! COMMENT NOT FOUND"
+        return
+
+
+#search_comment("badshahking")
+
+def find_average_words(user_name):
+    post_id = get_user_post_id(user_name)
+    url = base_url + "/media/" + str(post_id) + "/comments/?access_token=" + access_token
+    data = requests.get(url).json()
+    if len(data['data']) == 0:
+        print("There are no comments on this post...")
+    else:
+        list_of_comments = []
+        total_no_of_words = 0
+        comments_id = []
+        for comment in data['data']:
+            list_of_comments.append(comment['text'])
+            total_no_of_words += len(comment['text'].split())
+            comments_id.append(comment['id'])
+        average_words = float(total_no_of_words)/len(list_of_comments)
+        print "\nAverage no. of words per comment in post = %.2f" % average_words
+
+
+
+find_average_words("badshahking")
 
 
 
