@@ -178,12 +178,3 @@ def main_fun():
 
 #funtion calling
 main_fun()
-
-
-
-
-
-
-
-
-
