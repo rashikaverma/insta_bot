@@ -14,22 +14,28 @@ def owner_info():
     request_url = base_url + "/users/self/?access_token=" + access_token
     my_info = requests.get(request_url).json()
     print "OWNER'S NAME :" + my_info["data"]["username"]
-    print  "OWNER'S IS :"+ my_info["data"]["id"]
+    print  "OWNER'S ID :"+ my_info["data"]["id"]
 
 #funcion gets user information by using there user name
-def get_user_info_by_username(user_name):
+def get_user_id_by_username(user_name):
     user_url = base_url + "/users/search?q==" + user_name + "&access_token=" + access_token
     user_info = requests.get(user_url).json()
-    #print user_info["data"][0]["username"]
-    #print user_info["data"][0]["full_name"]
     return user_info["data"][0]["id"]
+
+def get_user_info(user_name):
+    user_url = base_url + "/users/search?q==" + user_name + "&access_token=" + access_token
+    user_info = requests.get(user_url).json()
+    print user_info["data"][0]["username"]
+    print user_info["data"][0]["full_name"]
+    print user_info["data"][0]["bio"]
+
 
 #function calling
 #get_user_info_by_username("badshahking143")
 
 #function to return post id by taking post_number and user_name as an argument
 def get_user_post_id(user_name):
-    user_id = get_user_info_by_username(user_name)
+    user_id = get_user_id_by_username(user_name)
     url_id = base_url + "/users/" + user_id + "/media/recent/?access_token=" + access_token
     rqst_url=requests.get(url_id).json()
     for posts in range(0, len(rqst_url["data"]), 1):
@@ -144,40 +150,45 @@ def main_fun():
     print "~~~~~~~OWNER INFORMATION~~~~~~~~"
     owner_info()
     def sub_fun():
-
+        users = ["badshahking14","apd_pankz"]
         print "PLEASE ENTER THE INSTAGRAM USER NAME"
         print "AVAILABLE USERNAMES ARE:-"
         print "badshahking143 \n apd_pankz"
         user = raw_input()
-        print "~~~~~~~~~~MENU~~~~~~~~"
-        print "1:- LIKE \n 2:- POST A COMMENT \n 3:- DELETE A COMMENT \n" \
-              "4:- SEARCH A COMMENT \n 5:- FIND AVERGAE WORDS OF COMMENT \n" \
-              "6:- TO GET THE USER'S INFO"
-        choice = raw_input("PLEASE ENTER YOUR CHOICE..[1,2..]")
-        if choice == 1:
-            like_user_post(user)
-        elif choice == 2:
-            post_comment(user)
-        elif choice == 3:
-            delete_comment(user)
-        elif choice == 4:
-            search_comment(user)
-        elif choice == 5:
-            find_average_words(user)
-        elif choice == 6:
-            get_user_info_by_username(user)
+        if user != users:
+            print "USER NOT FOUND"
         else:
-            print "YOU HAVE ENTERED A WRONG CHOICE"
+            print "~~~~~~~~~~MENU~~~~~~~~"
+            print "1:- LIKE \n 2:- POST A COMMENT \n 3:- DELETE A COMMENT \n" \
+                  " 4:- SEARCH A COMMENT \n 5:- FIND AVERGAE WORDS OF COMMENT \n" \
+                  " 6:- TO GET THE USER'S INFO"
+            choice = raw_input("PLEASE ENTER YOUR CHOICE..[1,2..]")
+            if choice == '1':
+                like_user_post(user)
+            elif choice == '2':
+                post_comment(user)
+            elif choice == '3':
+                delete_comment(user)
+            elif choice == '4':
+                search_comment(user)
+            elif choice == '5':
+                find_average_words(user)
+            elif choice == '6':
+                get_user_info(user)
+            else:
+                print "YOU HAVE ENTERED A WRONG CHOICE"
 
 
 
     sub_fun()
     print "DO YOU WANT TO CONTINUE ..? \n IS YES THEN PLEASE PRESS 'Y' "
     press = raw_input()
-    if press == 'y'or press == 'Y':
+    while press == 'y'or press == 'Y':
+        print "DO YOU WANT TO CONTINUE ..? \n IS YES THEN PLEASE PRESS 'Y' "
+        press = raw_input()
+
         sub_fun()
-    else:
-        return
+
 
 
 
