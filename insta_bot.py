@@ -136,7 +136,57 @@ def find_average_words(user_name):
 
 
 
-find_average_words("badshahking")
+#find_average_words("badshahking")
+
+
+def main_fun():
+    print " ~~~~~~~~~~~~~~~~~~~~~~~~~~WELCOME~~~~~~~~~~~~~~~~~~~~~"
+    print "~~~~~~~OWNER INFORMATION~~~~~~~~"
+    owner_info()
+    def sub_fun():
+
+        print "PLEASE ENTER THE INSTAGRAM USER NAME"
+        print "AVAILABLE USERNAMES ARE:-"
+        print "badshahking143 \n apd_pankz"
+        user = raw_input()
+        print "~~~~~~~~~~MENU~~~~~~~~"
+        print "1:- LIKE \n 2:- POST A COMMENT \n 3:- DELETE A COMMENT \n" \
+              "4:- SEARCH A COMMENT \n 5:- FIND AVERGAE WORDS OF COMMENT \n" \
+              "6:- TO GET THE USER'S INFO"
+        choice = raw_input("PLEASE ENTER YOUR CHOICE..[1,2..]")
+        if choice == 1:
+            like_user_post(user)
+        elif choice == 2:
+            post_comment(user)
+        elif choice == 3:
+            delete_comment(user)
+        elif choice == 4:
+            search_comment(user)
+        elif choice == 5:
+            find_average_words(user)
+        elif choice == 6:
+            get_user_info_by_username(user)
+        else:
+            print "YOU HAVE ENTERED A WRONG CHOICE"
+
+
+
+    sub_fun()
+    print "DO YOU WANT TO CONTINUE ..? \n IS YES THEN PLEASE PRESS 'Y' "
+    press = raw_input()
+    if press == 'y'or press == 'Y':
+        sub_fun()
+    else:
+        return
+
+
+
+main_fun()
+
+
+
+
+
 
 
 
